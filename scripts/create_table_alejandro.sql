@@ -186,3 +186,70 @@ REFERENCES ggp_type_aforo (type_aforo_id);
 
 SELECT * FROM ggp_aforo_recipient
 DROP TABLE ggp_temp_client
+
+DROP TABLE ggp_aforo_recipient
+
+SELECT * FROM ggp_recipient
+/
+ALTER TABLE ggp_recipient
+ADD aforo_id NUMBER NOT null
+ /
+
+ALTER TABLE ggp_recipient
+ADD CONSTRAINT ggp_recipient_aforo_fk  FOREIGN KEY (aforo_id )
+REFERENCES ggp_aforo (aforo_id)
+
+
+ALTER TABLE ggp_recipient
+DROP CONSTRAINT ggp_recipient_aforo_fk
+
+CREATE TABLE ggp_state_micro_route(
+  state_micro_route_id NUMBER,
+  state VARCHAR2 (255)
+);
+
+DROP TABLE state_micro_route
+
+ALTER TABLE ggp_state_micro_route
+ADD CONSTRAINT ggp_state_micro_route_pk PRIMARY KEY (state_micro_route_id);
+
+
+CREATE TABLE ggp_micro_route(
+  micro_route_id NUMBER,
+  micro_route_name VARCHAR2 (255) NOT NULL,
+  date_start DATE NOT NULL,
+  date_finish DATE,
+  milage NUMBER,
+  aforo_time NUMBER,
+  trip_home_time NUMBER,
+  total_aforo NUMBER,
+  density NUMBER,
+  sign_micro_route VARCHAR2 (4000),
+  description_abandon VARCHAR2 (255),
+  route_id NUMBER NOT NULL,
+  user_id NUMBER NOT NULL ,
+  truck_id NUMBER NOT NULL ,
+  state_micro_route_id NUMBER NOT NULL
+);
+
+ALTER TABLE ggp_micro_route
+ADD CONSTRAINT ggp_micro_route_pk PRIMARY KEY (micro_route_id)
+
+ALTER TABLE ggp_micro_route
+ADD CONSTRAINT ggp_micro_route_route_fk FOREIGN KEY (route_id)
+REFERENCES ggp_route (route_id);
+
+
+ALTER TABLE ggp_micro_route
+ADD CONSTRAINT ggp_micro_route_user_fk FOREIGN KEY (user_id)
+REFERENCES ggp_users(user_id);
+
+
+ALTER TABLE ggp_micro_route
+ADD CONSTRAINT ggp_micro_route_truck_fk FOREIGN KEY (truck_id)
+REFERENCES ggp_truck(truck_id);
+
+
+ALTER TABLE ggp_micro_route
+ADD CONSTRAINT ggp_micro_route_state_fk FOREIGN KEY (state_micro_route_id)
+REFERENCES ggp_state_micro_route(state_micro_route_id);
