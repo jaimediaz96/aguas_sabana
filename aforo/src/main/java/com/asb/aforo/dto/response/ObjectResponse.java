@@ -1,4 +1,4 @@
-package com.asb.aforo.model;
+package com.asb.aforo.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
