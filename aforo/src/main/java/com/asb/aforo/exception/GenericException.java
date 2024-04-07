@@ -1,4 +1,4 @@
-package com.prepaid.meters.exception;
+package com.asb.aforo.exception;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
