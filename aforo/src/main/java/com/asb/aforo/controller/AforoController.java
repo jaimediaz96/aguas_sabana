@@ -2,17 +2,16 @@ package com.asb.aforo.controller;
 
 import com.asb.aforo.business.interfaces.AforoInterfaceBusines;
 import com.asb.aforo.dto.request.AforoRequestDTO;
-import com.asb.aforo.dto.request.PhotosDTO;
 import com.asb.aforo.dto.response.AforoResponseDTO;
-import com.asb.aforo.dto.response.ObjectResponse;
-import com.asb.aforo.model.GgpAforo;
+import com.asb.aforo.dto.response.AforoTypesResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/aforo")
@@ -25,6 +24,11 @@ public class AforoController {
     public ResponseEntity<AforoResponseDTO>saveAforo(@RequestBody AforoRequestDTO request){
         log.info("Se inicia el endpoint para la creacion de un aforo Objeto obtenido-> {}",request);
         return new ResponseEntity<>(aforoBusiness.createAforo(request), HttpStatus.OK);
+    }
+
+    @GetMapping("/getTypes")
+    public ResponseEntity<List<AforoTypesResponseDTO>>getAforoTypes(){
+        return new ResponseEntity<>(aforoBusiness.getAforoType(),HttpStatus.OK);
     }
 
 }
