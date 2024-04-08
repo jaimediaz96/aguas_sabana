@@ -28,6 +28,7 @@ public class AforoController {
 
     @GetMapping("/getTypes")
     public ResponseEntity<List<AforoTypesResponseDTO>>getAforoTypes(){
+        log.info("Se inicia el endpoint para la obtencion de una lista de los tipos de aforo");
         return new ResponseEntity<>(aforoBusiness.getAforoType(),HttpStatus.OK);
     }
 
