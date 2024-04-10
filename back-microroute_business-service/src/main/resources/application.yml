@@ -1,0 +1,16 @@
+server:
+  port: 1621
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@//141.148.186.198:1621/aqualiadldbs01_pdbprd1.okedatabasesaqu.aquasrvokedevia.oraclevcn.com
+    username: ARQPRODV5
+    password: ARQPRODV5
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+  application:
+    request:
+      mapping: /back-microroute_business-service

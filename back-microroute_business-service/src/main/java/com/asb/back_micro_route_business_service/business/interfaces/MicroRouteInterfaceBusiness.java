@@ -1,0 +1,10 @@
+package com.asb.back_micro_route_business_service.business.interfaces;
+
+import com.asb.back_micro_route_business_service.dto.response.GetMicroRouteResponseDTO;
+
+import java.util.List;
+
+public interface MicroRouteInterfaceBusiness {
+
+    GetMicroRouteResponseDTO getMicroRouteByUserId(Long userId);
+}
