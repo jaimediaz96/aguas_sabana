@@ -45,7 +45,7 @@ public class GgpMicroRoute {
     private Long  totalAforo;
 
     @Column(name = "density")
-    private Long  density;
+    private Double  density;
 
     @Column(name = "micro_route_sign")
     private String microRouteSign;

@@ -2,6 +2,7 @@ package com.asb.back_micro_route_business_service.business.services;
 
 import com.asb.back_micro_route_business_service.business.interfaces.MicroRouteInterfaceBusiness;
 import com.asb.back_micro_route_business_service.dto.response.ClientResponseDTO;
+import com.asb.back_micro_route_business_service.dto.response.DensityDTO;
 import com.asb.back_micro_route_business_service.dto.response.GetMicroRouteResponseDTO;
 import com.asb.back_micro_route_business_service.exception.GenericException;
 import com.asb.back_micro_route_business_service.repository.MicroRouteRepository;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -24,8 +24,10 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
     @Override
     public GetMicroRouteResponseDTO getMicroRouteByUserId(Long userId) {
         var microRoutes = microRouteRepository.getMicroRouteData(userId);
+        if (microRoutes == null || microRoutes.isEmpty()) {
+            throw new GenericException("Usuario no encontrado.", HttpStatus.NOT_FOUND);
+        }
         GetMicroRouteResponseDTO response = new GetMicroRouteResponseDTO();
-        if(!microRoutes.isEmpty()){
             for(Object[] obj: microRoutes){
                 response.setMicroRouteId(obj[0] != null ? Long.parseLong(obj[0].toString()) : null);
                 response.setRouteName(obj[1] != null ? obj[1].toString() : null);
@@ -34,16 +36,24 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
                 response.setPlate(obj[4] != null ? obj[4].toString() : null);
             }
             response.setClients(ListClient(userId));
-        }else{
-            throw new GenericException("Usuario no encontrado.", HttpStatus.NOT_FOUND);
-        }
         return response;
+    }
+
+    @Override
+    public DensityDTO getDensity(Long microRouteId) {
+        var microRoute = microRouteRepository.findById(microRouteId);
+        log.info("micro rote {}", microRoute);
+        DensityDTO density = new DensityDTO();
+        density.setDensity(Double.parseDouble(microRoute.get().getDensity().toString()));
+        return density;
     }
 
     List<ClientResponseDTO> ListClient(Long userId){
         List<ClientResponseDTO> users = new ArrayList<>();
         var objects = microRouteRepository.getClientData(userId);
-        if(!objects.isEmpty()){
+        if (objects == null || objects.isEmpty()) {
+            throw new GenericException("Usuario no encontrado.", HttpStatus.NOT_FOUND);
+        }
             for(Object[] obj: objects){
                 var user = new ClientResponseDTO();
                 user.setClientId(obj[0] != null ? Long.parseLong(obj[0].toString()) : null);
@@ -53,9 +63,6 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
                 user.setAforoName(obj[4] != null ? obj[4].toString() : null);
                 users.add(user);
             }
-        }else{
-            throw new GenericException("ususario no encontrado.", HttpStatus.NOT_FOUND);
-        }
         return users;
     }
 }

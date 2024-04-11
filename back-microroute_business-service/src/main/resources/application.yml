@@ -13,4 +13,4 @@ spring:
         dialect: org.hibernate.dialect.SQLServer2012Dialect
   application:
     request:
-      mapping: /back-microroute_business-service
+      mappings: /back-microroute_business-service
