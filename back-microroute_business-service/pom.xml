@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.asb</groupId>
-	<artifactId>back-microroute_business-service</artifactId>
+	<artifactId>back-micro-route_business-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>back-microroute_business-ser</name>
 	<description>microservice that takes care of the business operations of the microroute</description>

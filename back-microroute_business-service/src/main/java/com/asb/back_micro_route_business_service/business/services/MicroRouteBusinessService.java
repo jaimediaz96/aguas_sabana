@@ -23,6 +23,7 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
     private final MicroRouteRepository microRouteRepository;
     @Override
     public GetMicroRouteResponseDTO getMicroRouteByUserId(Long userId) {
+
         var microRoutes = microRouteRepository.getMicroRouteData(userId);
         if (microRoutes == null || microRoutes.isEmpty()) {
             throw new GenericException("Usuario no encontrado.", HttpStatus.NOT_FOUND);
