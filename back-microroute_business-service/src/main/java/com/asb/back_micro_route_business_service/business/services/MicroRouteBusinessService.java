@@ -29,8 +29,9 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
             throw new GenericException("Usuario no encontrado", HttpStatus.NOT_FOUND);
         }
         var microRoutes = microRouteRepository.getMicroRouteData(userId);
+        log.info("microRoutes: {}", microRoutes);
         if (microRoutes == null || microRoutes.isEmpty()) {
-            throw new GenericException("No hay micro ruta que mostrar", HttpStatus.NO_CONTENT);
+            throw new GenericException("No hay micro ruta que mostrar", HttpStatus.NOT_FOUND);
         }
         GetMicroRouteResponseDTO response = new GetMicroRouteResponseDTO();
             for(Object[] obj: microRoutes){
@@ -57,7 +58,7 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
         List<ClientResponseDTO> users = new ArrayList<>();
         var objects = microRouteRepository.getClientData(userId);
         if (objects == null || objects.isEmpty()) {
-            throw new GenericException("No hay lista de clientes que mostrar", HttpStatus.NO_CONTENT);
+            throw new GenericException("No hay lista de clientes que mostrar", HttpStatus.NOT_FOUND);
         }
             for(Object[] obj: objects){
                 var user = new ClientResponseDTO();
