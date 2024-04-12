@@ -6,6 +6,7 @@ import com.asb.back_micro_route_business_service.dto.response.DensityDTO;
 import com.asb.back_micro_route_business_service.dto.response.GetMicroRouteResponseDTO;
 import com.asb.back_micro_route_business_service.exception.GenericException;
 import com.asb.back_micro_route_business_service.repository.MicroRouteRepository;
+import com.asb.back_micro_route_business_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,16 @@ import java.util.List;
 public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
 
     private final MicroRouteRepository microRouteRepository;
+    private final UserRepository userRepository;
     @Override
     public GetMicroRouteResponseDTO getMicroRouteByUserId(Long userId) {
+        if (userRepository.findById(userId).isEmpty()) {
+            throw new GenericException("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        }
         var microRoutes = microRouteRepository.getMicroRouteData(userId);
+        log.info("microRoutes: {}", microRoutes);
         if (microRoutes == null || microRoutes.isEmpty()) {
-            throw new GenericException("Usuario no encontrado.", HttpStatus.NOT_FOUND);
+            throw new GenericException("No hay micro ruta que mostrar", HttpStatus.NOT_FOUND);
         }
         GetMicroRouteResponseDTO response = new GetMicroRouteResponseDTO();
             for(Object[] obj: microRoutes){
@@ -52,7 +58,7 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
         List<ClientResponseDTO> users = new ArrayList<>();
         var objects = microRouteRepository.getClientData(userId);
         if (objects == null || objects.isEmpty()) {
-            throw new GenericException("Usuario no encontrado.", HttpStatus.NOT_FOUND);
+            throw new GenericException("No hay lista de clientes que mostrar", HttpStatus.NOT_FOUND);
         }
             for(Object[] obj: objects){
                 var user = new ClientResponseDTO();

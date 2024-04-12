@@ -17,7 +17,8 @@ public interface MicroRouteRepository extends CrudRepository<GgpMicroRoute ,Long
            INNER JOIN ggp_truck t ON mr.truck_id = mr.truck_id
             INNER JOIN ggp_state_micro_route smr ON mr.state_micro_route_id = smr.state_micro_route_id
            WHERE mr.user_id = (:userId)
-           AND smr.state = 'CREADA' 
+           AND smr.state = 'CREADA'
+           AND Trunc(mr.micro_route_date_start) = Trunc(SYSDATE)
            """,nativeQuery = true)
     List<Object[]> getMicroRouteData(@Param("userId")Long userId);
 
@@ -36,6 +37,7 @@ public interface MicroRouteRepository extends CrudRepository<GgpMicroRoute ,Long
             INNER JOIN ggp_aforo a ON c.client_id = a.client_id
             WHERE mr.user_id = (:userId)
             AND smr.state = 'CREADA'
+            AND Trunc(mr.micro_route_date_start) = Trunc(SYSDATE)
            """,nativeQuery = true)
     List<Object[]> getClientData(@Param("userId")Long userId);
 }
