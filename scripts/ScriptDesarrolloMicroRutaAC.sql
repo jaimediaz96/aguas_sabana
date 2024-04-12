@@ -16,6 +16,8 @@ SELECT * FROM ggp_aforo;
 
 SELECT * FROM ggp_crew;
 
+SELECT * FROM ggp_user;
+
 SELECT mr.micro_route_id ,r.route_name ,r.description_route,mr.micro_route_name,t.plate
 FROM ggp_micro_route mr
 INNER JOIN ggp_route r ON mr.route_id = r.route_id
