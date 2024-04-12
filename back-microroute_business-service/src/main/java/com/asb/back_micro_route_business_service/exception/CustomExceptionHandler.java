@@ -20,6 +20,7 @@ public class CustomExceptionHandler {
      * @param request the WebRequest object
      * @return the ResponseEntity containing the error response
      */
+
     @ExceptionHandler(GenericException.class)
     public ResponseEntity<Object> handleGenericException(GenericException ex, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
