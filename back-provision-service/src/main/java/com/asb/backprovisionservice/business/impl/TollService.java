@@ -35,7 +35,7 @@ public class TollService implements TollInterfaceBusiness {
             tollRequestDto.getNames().forEach(tollName -> {
                 GgpToll toll = new GgpToll();
 
-                toll.setName(requireNonNull(tollName));
+                toll.setName(requireNonNull(tollName, "name"));
 
                 toll = this.tollRepository.save(toll);
 
