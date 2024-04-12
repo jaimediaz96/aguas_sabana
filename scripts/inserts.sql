@@ -4,7 +4,7 @@ FROM user_constraints cons, user_cons_columns cols
 WHERE cons.constraint_type = 'P'
 AND cons.constraint_name = cols.constraint_name
 AND cons.owner = cols.owner
-AND cols.table_name = 'ggp_micro_route_client';
+AND cols.table_name = 'ggp_micro_route';
 
 -- SEE FK
 SELECT cols.table_name, cols.column_name, cons.r_constraint_name
@@ -12,7 +12,7 @@ FROM user_constraints cons, user_cons_columns cols
 WHERE cons.constraint_type = 'R'
 AND cons.constraint_name = cols.constraint_name
 AND cons.owner = cols.owner
-AND cols.table_name = 'ggp_micro_route_crew';
+AND cols.table_name = 'ggp_client';
 
 SELECT * FROM ggp_micro_route_crew;
 --------------- INSERTS ---------------
@@ -174,12 +174,12 @@ SELECT * FROM ggp_client;
 
 INSERT INTO ggp_micro_route VALUES (1, '12345', TO_DATE('2024-04-06', 'YYYY-MM-DD'), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 1, 1);
 
-INSERT INTO ggp_micro_route_client VALUES (1, 1);
-INSERT INTO ggp_micro_route_client VALUES (1, 2);
-INSERT INTO ggp_micro_route_client VALUES (1, 3);
-INSERT INTO ggp_micro_route_client VALUES (1, 4);
-INSERT INTO ggp_micro_route_client VALUES (1, 5);
-INSERT INTO ggp_micro_route_client VALUES (1, 6);
+INSERT INTO ggp_micro_route_client (client_id, micro_route_id, micro_route_client_id) VALUES (1, 1, 1);
+INSERT INTO ggp_micro_route_client (client_id, micro_route_id, micro_route_client_id) VALUES (2, 1, 2);
+INSERT INTO ggp_micro_route_client (client_id, micro_route_id, micro_route_client_id) VALUES (3, 1, 3);
+INSERT INTO ggp_micro_route_client (client_id, micro_route_id, micro_route_client_id) VALUES (4, 1, 4);
+INSERT INTO ggp_micro_route_client (client_id, micro_route_id, micro_route_client_id) VALUES (5, 1, 5);
+INSERT INTO ggp_micro_route_client (client_id, micro_route_id, micro_route_client_id) VALUES (6, 1, 6);
 
 SELECT * FROM ggp_micro_route_client;
 

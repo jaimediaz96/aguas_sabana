@@ -108,7 +108,7 @@ ADD CONSTRAINT GGP_Toll_pk PRIMARY KEY (toll_id);
 
 CREATE TABLE GGP_Provision (
     provision_id NUMBER NOT NULL,
-    km_strat NUMBER NOT NULL,
+    km_start NUMBER NOT NULL,
     km_finish NUMBER NOT NULL,
     provision_date DATE NOT NULL,
     provision_time_trip  NUMBER NOT NULL,
@@ -136,9 +136,13 @@ REFERENCES GGP_Micro_Route (micro_route_id);
 
 
 CREATE TABLE GGP_Provision_Toll (
+    provision_toll_id NUMBER NOT NULL,
     provision_id NUMBER NOT NULL,
     toll_id NUMBER NOT NULL
 );
+
+ALTER TABLE GGP_Provision_Toll
+ADD CONSTRAINT GGP_Provision_toll_pk PRIMARY KEY (provision_toll_id);
 
 ALTER TABLE GGP_Provision_Toll
 ADD CONSTRAINT GGP_Provision_fk FOREIGN KEY (provision_id)
@@ -238,8 +242,12 @@ ADD CONSTRAINT GGP_FILL_PERCENTAGE_PK PRIMARY KEY (fill_percentage_id);
 
 CREATE TABLE GGP_Micro_Route_Crew (
     micro_route_id NUMBER NOT NULL,
-    crew_id NUMBER NOT NULL
+    crew_id NUMBER NOT NULL,
+    Micro_Route_Crew_id NUMBER NULL
 );
+
+ALTER TABLE GGP_Micro_Route_Crew
+ADD CONSTRAINT GGP_Micro_Route_Crew_PK PRIMARY KEY (Micro_Route_Crew_id);
 
 ALTER TABLE GGP_Micro_Route_Crew
 ADD CONSTRAINT GGP_Micro_Route_fk FOREIGN KEY (micro_route_id)
@@ -248,3 +256,10 @@ REFERENCES GGP_Micro_Route (micro_route_id);
 ALTER TABLE GGP_Micro_Route_Crew
 ADD CONSTRAINT GGP_Crew_fk FOREIGN KEY (crew_id)
 REFERENCES GGP_Crew (crew_id);
+
+
+ALTER TABLE ggp_micro_route_client
+ADD micro_route_client_id NUMBER NOT NULL;
+
+ALTER TABLE ggp_micro_route_client
+ADD CONSTRAINT ggp_micro_route_client_id_pk PRIMARY KEY (micro_route_client_id);
