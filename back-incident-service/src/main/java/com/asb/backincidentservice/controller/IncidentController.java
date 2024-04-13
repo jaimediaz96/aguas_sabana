@@ -21,8 +21,8 @@ public class IncidentController {
 
     @PostMapping("/create")
     public ResponseEntity<IncidentResponseDto> createTolls(@RequestBody IncidentRequestDto incidentRequestDto) {
-        String messages = "The endpoint for create an incident is initiated, Object obtained-> " + incidentRequestDto;
-        log.info(messages);
+        String message = "The endpoint for create an incident is initiated, Object obtained-> " + incidentRequestDto;
+        log.info(message);
 
         IncidentResponseDto incidentResponseDto = this.incidentInterfaceBusiness.createIncident(incidentRequestDto);
         return ResponseEntity.ok().body(incidentResponseDto);

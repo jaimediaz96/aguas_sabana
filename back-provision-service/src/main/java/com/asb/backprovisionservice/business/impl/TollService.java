@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +58,13 @@ public class TollService implements TollInterfaceBusiness {
 
     @Override
     public List<GgpToll> getAllTolls() {
-        return (List<GgpToll>) this.tollRepository.findAll();
+        List<GgpToll> tolls = (List<GgpToll>) this.tollRepository.findAll();
+
+        if (tolls.isEmpty()) {
+            log.error("No tolls found in the database {}", tolls);
+            throw new GenericException("No tolls found in the database", HttpStatus.NOT_FOUND);
+        }
+
+        return tolls;
     }
 }

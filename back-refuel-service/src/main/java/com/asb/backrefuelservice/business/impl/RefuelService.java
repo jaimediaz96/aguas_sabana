@@ -36,14 +36,17 @@ public class RefuelService implements RefuelInterfaceBusiness {
             refuel.setMicroRouteId(requireNonNull(refuelRequestDto.getMicroRouteId(), "microRouteId"));
 
             refuel = this.refuelRepository.save(refuel);
+
+            String messages = "The refuel -> { " + refuel + " } was save in the entity GgpRefuel";
+            log.info(messages);
         } catch (NullPointerException e) {
             log.error("missing variable: {}", e.getMessage());
             throw new GenericException("missing variable: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            log.error("Error at insert a toll");
-            log.error("Causa of error at insert a toll -> {}", e.getCause().toString());
-            log.error("Messages of error at insert a toll -> {}", e.getMessage());
-            throw new GenericException("It cant insert the toll", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error at create a refuel");
+            log.error("Causa of error at create a refuel -> {}", e.getCause().toString());
+            log.error("Messages of error at create a refuel -> {}", e.getMessage());
+            throw new GenericException("It cant create a refuel", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         refuelResponseDto.setRefuelId(refuel.getRefuelId());

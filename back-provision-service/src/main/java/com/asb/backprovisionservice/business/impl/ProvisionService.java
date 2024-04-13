@@ -42,11 +42,15 @@ public class ProvisionService implements ProvisionInterfaceBusiness, Application
         ProvisionService proxy = applicationContext.getBean(ProvisionService.class);
 
         provisionRequestDto.getTollIds().forEach(tollId -> {
-            if (tollId == null) throw new GenericException("missing tollId", HttpStatus.BAD_REQUEST);
+            if (tollId == null) {
+                log.error("Toll id is null");
+                throw new GenericException("missing tollId", HttpStatus.BAD_REQUEST);
+            }
 
             boolean isTollExist = tollRepository.existsById(tollId);
             if (!isTollExist) {
                 String messages = "This tollId = " + tollId + " doesnt exist";
+                log.error(messages);
                 throw new GenericException(messages, HttpStatus.BAD_REQUEST);
             }
         });
@@ -84,7 +88,7 @@ public class ProvisionService implements ProvisionInterfaceBusiness, Application
             log.error("Error at insert a provision");
             log.error("Causa of error at insert a provision -> {}", e.getCause().toString());
             log.error("Messages of error at insert a provision -> {}", e.getMessage());
-            throw new GenericException("It cant insert", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new GenericException("It cant insert a provision", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         String messages = "The object provision -> " + provision + " was save in the entity GgpProvision";

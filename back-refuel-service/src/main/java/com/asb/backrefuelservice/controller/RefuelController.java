@@ -21,7 +21,7 @@ public class RefuelController {
 
     @PostMapping("/create")
     public ResponseEntity<RefuelResponseDto> createTolls(@RequestBody RefuelRequestDto refuelRequestDto) {
-        String messages = "The endpoint for create an incident is initiated, Object obtained-> " + refuelRequestDto;
+        String messages = "The endpoint for create a refuel is initiated, Object obtained-> " + refuelRequestDto;
         log.info(messages);
 
         RefuelResponseDto refuelResponseDto = this.refuelInterfaceBusiness.createRefuel(refuelRequestDto);

@@ -35,14 +35,17 @@ public class IncidentService implements IncidentInterfaceBusiness {
             incident.setIncidentTypeId(requireNonNull(incidentRequestDto.getIncidentTypeId(), "incidentTypeId"));
 
             incident = this.incidentRepository.save(incident);
+
+            String messages = "The incident -> { " + incident + " } was save in the entity GgpIncident";
+            log.info(messages);
         } catch (NullPointerException e) {
             log.error("missing variable: {}", e.getMessage());
             throw new GenericException("missing variable: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            log.error("Error at insert a toll");
-            log.error("Causa of error at insert a toll -> {}", e.getCause().toString());
-            log.error("Messages of error at insert a toll -> {}", e.getMessage());
-            throw new GenericException("It cant insert the toll", HttpStatus.INTERNAL_SERVER_ERROR);
+            log.error("Error at create incident");
+            log.error("Causa of error at create incident -> {}", e.getCause().toString());
+            log.error("Messages of error at create incident -> {}", e.getMessage());
+            throw new GenericException("It cant create incident", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         incidentResponseDto.setIncidentId(incident.getIncidentId());
