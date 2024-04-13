@@ -42,7 +42,7 @@ public class GgpMicroRoute {
     private Long microRouteTripHomeTime;
 
     @Column(name = "total_aforo")
-    private Long  totalAforo;
+    private Double  totalAforo;
 
     @Column(name = "density")
     private Double  density;

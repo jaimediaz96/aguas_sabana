@@ -1,12 +1,16 @@
 package com.asb.back_micro_route_business_service.business.services;
 
 import com.asb.back_micro_route_business_service.business.interfaces.MicroRouteInterfaceBusiness;
+import com.asb.back_micro_route_business_service.dto.request.MicroRouteRequestDTO;
 import com.asb.back_micro_route_business_service.dto.response.ClientResponseDTO;
 import com.asb.back_micro_route_business_service.dto.response.DensityDTO;
 import com.asb.back_micro_route_business_service.dto.response.GetMicroRouteResponseDTO;
+import com.asb.back_micro_route_business_service.dto.response.ObjectResponse;
 import com.asb.back_micro_route_business_service.exception.GenericException;
+import com.asb.back_micro_route_business_service.model.GgpMicroRoute;
 import com.asb.back_micro_route_business_service.repository.MicroRouteRepository;
 import com.asb.back_micro_route_business_service.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -52,6 +57,34 @@ public class MicroRouteBusinessService implements MicroRouteInterfaceBusiness {
         DensityDTO density = new DensityDTO();
         density.setDensity(Double.parseDouble(microRoute.get().getDensity().toString()));
         return density;
+    }
+
+    @Override
+    @Transactional
+    public ObjectResponse updateMicroRoute(Long microRouteId, MicroRouteRequestDTO request) {
+        try {
+            GgpMicroRoute newMicroRoute = new GgpMicroRoute();
+            Optional<GgpMicroRoute> microRoute = microRouteRepository.findById(microRouteId);
+            if (microRoute.isPresent()) {
+                newMicroRoute = microRoute.get();
+            }
+            if (request.getDateFinish() != null) newMicroRoute.setMicroRouteDateFinish(request.getDateFinish());
+            if (request.getMilage() != null) newMicroRoute.setMilage(request.getMilage());
+            if (request.getMicroRouteAforoTime() != null) newMicroRoute.setMicroRouteAforoTime(request.getMicroRouteAforoTime());
+            if (request.getMicroRouteTripHomeTime() != null) newMicroRoute.setMicroRouteTripHomeTime(request.getMicroRouteTripHomeTime());
+            if (request.getTotalAforo() != null) newMicroRoute.setTotalAforo(request.getTotalAforo());
+            if (request.getDensity() != null) newMicroRoute.setDensity(request.getDensity());
+            if (request.getDescriptionAbandon() != null) newMicroRoute.setDescriptionAbandon(request.getDescriptionAbandon());
+            microRouteRepository.save(newMicroRoute);
+
+            log.info("Se modifico la entidad -> {}" ,newMicroRoute);
+        }catch (Exception e){
+            log.error("Error al actualizar la micro ruta");
+            log.error("Causa del error-> {}",e.getCause().toString());
+            log.error("Mensaje del error-> {}",e.getMessage());
+            throw new GenericException("No se pudo actualizar la micro ruta" , HttpStatus.BAD_REQUEST);
+        }
+        return new ObjectResponse("Micro ruta Actualizada" , 0L);
     }
 
     List<ClientResponseDTO> ListClient(Long userId){
